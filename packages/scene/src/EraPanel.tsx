@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { TechStack } from '@portfolio/ui';
+import { TechStack, type TechStackVariant } from '@portfolio/ui';
 import type { Era } from '@portfolio/eras';
 
 export interface EraPanelProps {
@@ -10,10 +10,12 @@ export interface EraPanelProps {
   action?: ReactNode;
   /** Glow around the text, in the page's background color, to separate it from the code behind. */
   glow?: boolean;
+  /** How the tech stack is shown: logos, tags, or both. */
+  techStackVariant?: TechStackVariant;
 }
 
 /** The right side of an era: what I was working on, the tech stack and the trends of the time. */
-export function EraPanel({ era, action, glow = true }: EraPanelProps) {
+export function EraPanel({ era, action, glow = true, techStackVariant = 'icons' }: EraPanelProps) {
   const [start, end] = era.years;
   return (
     <Box
@@ -63,7 +65,11 @@ export function EraPanel({ era, action, glow = true }: EraPanelProps) {
 
       {/* Chips and button have solid backgrounds: no glow needed. */}
       <Box sx={{ textShadow: 'none' }}>
-        <TechStack items={era.stack} label={`Tech stack ${start}–${end}`} />
+        <TechStack
+          items={era.stack}
+          variant={techStackVariant}
+          label={`Tech stack ${start}–${end}`}
+        />
       </Box>
 
       <Box component="ul" sx={{ m: 0, pl: 2.5 }}>

@@ -5,6 +5,7 @@ import { highlightCode } from '@portfolio/backdrop/highlight';
 import { MONITOR_RATIOS } from '@portfolio/devices';
 import { eras, type Era } from '@portfolio/eras';
 import { EraScene, SCENE_PAGE_MODES, type ScenePageMode } from '@portfolio/scene';
+import { TECH_STACK_VARIANTS, type TechStackVariant } from '@portfolio/ui';
 import { Timeline, type TimelineMode } from '@portfolio/timeline';
 
 // Every attribute of every component in one place. Device and style attributes default to
@@ -20,6 +21,7 @@ interface PlaygroundArgs {
   // Page
   pageMode: ScenePageMode;
   panelGlow: boolean;
+  techStackVariant: TechStackVariant;
   // Devices
   monitorRatio: Auto | (typeof MONITOR_RATIOS)[number];
   monitorWidth: Auto | '1024' | '1280' | '1366' | '1440' | '1920' | '2560';
@@ -80,6 +82,7 @@ function sceneProps(args: PlaygroundArgs) {
     pageMode: args.pageMode,
     devicesMaxHeight: `${args.devicesMaxHeight}svh`,
     panelGlow: args.panelGlow,
+    techStackVariant: args.techStackVariant,
     codePlacement: args.codePlacement,
     codeIncline: args.codeIncline,
     codeSize: args.codeSize,
@@ -107,6 +110,12 @@ const argTypes = {
     table: { category: 'Page' },
   },
   panelGlow: { name: 'Panel text glow', control: 'boolean', table: { category: 'Page' } },
+  techStackVariant: {
+    name: 'Tech stack display',
+    control: 'inline-radio',
+    options: TECH_STACK_VARIANTS,
+    table: { category: 'Page' },
+  },
   monitorRatio: {
     name: 'Monitor ratio',
     control: 'select',
@@ -152,6 +161,7 @@ const defaultArgs: PlaygroundArgs = {
   eraId: eras[0]!.id,
   pageMode: 'split',
   panelGlow: true,
+  techStackVariant: 'icons',
   monitorRatio: AUTO,
   monitorWidth: AUTO,
   devicesMaxHeight: 52,

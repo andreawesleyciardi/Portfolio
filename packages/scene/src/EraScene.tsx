@@ -2,7 +2,13 @@
 
 import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { ThemeProvider, styled } from '@mui/material/styles';
-import { ContactButton, createEraTheme, createPageTheme, type PageMode } from '@portfolio/ui';
+import {
+  ContactButton,
+  createEraTheme,
+  createPageTheme,
+  type PageMode,
+  type TechStackVariant,
+} from '@portfolio/ui';
 import {
   BrowserFrame,
   DeviceSet,
@@ -41,6 +47,8 @@ export interface EraSceneProps {
   codeFade?: boolean;
   /** Glow around the panel text. */
   panelGlow?: boolean;
+  /** How the tech stack is shown: logos, tags, or both. */
+  techStackVariant?: TechStackVariant;
   /**
    * The page around the devices: light, dark, or split (light behind the devices, dark behind
    * the text, for readability). The era's own look stays inside the devices.
@@ -172,6 +180,7 @@ export function EraScene({
   codeOpacity,
   codeFade,
   panelGlow,
+  techStackVariant,
   pageMode = 'split',
   devicesMaxHeight = '52svh',
 }: EraSceneProps) {
@@ -262,6 +271,7 @@ export function EraScene({
               <EraPanel
                 era={era}
                 glow={panelGlow}
+                techStackVariant={techStackVariant}
                 action={
                   <ThemeProvider theme={eraTheme}>
                     <ContactButton href={contactHref} />

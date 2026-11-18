@@ -4,7 +4,7 @@ A single-page portfolio where scrolling moves through time, from 2008 to 2026. T
 
 ## Layout of each era
 
-- **Left: a fake monitor** with a browser replica as its frame (IE / Firefox 3 → Chrome → modern). Inside it, a website in the style of the era, ideally a recreation of the project or company I worked on then.
+- **Left: a fake monitor** of the era with a browser replica of the era as its frame (see below). Inside it, a website in the style of the era, ideally a recreation of the project or company I worked on then.
   - The monitor's shape follows the screens of the time: 4:3 / 5:4 → 16:10 → 16:9 → ultrawide.
   - **Max height for the devices (decided):** the devices are capped by height as well as width (default 52% of the screen height), so a 4:3 monitor is no taller than a 16:9 one and doesn't push the layout around. Adjustable in the Playground ("Devices max height").
   - **Monitor design tied to the era (decided):** each era has a typical monitor model, not just a size: silver 4:3 LCD with green power light (2008) → piano-black glossy widescreen on a round stand (2010) → matte black Full HD (2012) → slim bezel with aluminum chin (2014) → three-side frameless (2017) → curved gaming ultrawide on red-accent V legs (2020) → thin uniform bezel with silver stand (2023). Generic designs, no brands. The model sets the look and the aspect ratio.
@@ -18,19 +18,19 @@ A single-page portfolio where scrolling moves through time, from 2008 to 2026. T
   - Devices join when they existed: a phone (iPhone era on), then a tablet (iPad, 2010 on), each showing the version of the same site for that device (a zoomed-out desktop site before responsive design, a responsive one after).
 - **Right: the era panel**
   - What I was working on: the company or project, plus a short explanation of its business field.
-  - Tech stack icons for what I was using then.
+  - Tech stack for what I was using then. **Logos by default (decided)**, from Simple Icons (CC0), each in its brand color (switching to the text color when the brand color would vanish on the background). Three display options: `icons` (logo, name as tooltip and accessible label), `tags` (names), `both` (logo inside the tag). Technologies without a logo in the set (AngularJS, SharePoint, Kendo UI, JavascriptMVC) get a lettered badge.
   - Short text on the frontend trends of the moment.
   - **Contact Me button, always visible**, restyled per era (glossy gel button → flat → Material raised with ripple → ghost → neumorphic → glass). It shows one real element evolving outside the fake devices. It always works and keeps the same accessible name and good contrast in every style.
 - **Background, decorative at low opacity:**
   - A code snippet in the coding style of the era (tables for layout → divs and floats → flexbox → grid → components → ...).
-    - **Colored like VS Code (decided):** highlighted with Shiki, which uses VS Code's grammars and themes: *Light+* on light eras, *Dark+* on dark ones. Done at build time, so no highlighter ships to the browser.
+    - **Colored like VS Code (decided):** highlighted with Shiki, which uses VS Code's grammars and themes: *Light+* on a light background, *Dark+* on a dark one, following the page side the code sits on (with the split page it is on the dark side, so Dark+). Both versions are prepared at build time, so no highlighter ships to the browser.
     - **Placed behind the right-hand panel (decided):** behind the monitor it was hidden. Opacity 0.25 on desktop, 60% of that on mobile, where it sits right behind the text. Tilted by **−6°** and slightly bigger (1.2rem) by default; incline and size are adjustable (Storybook controls "Code incline" and "Code size"). Other placements (`left`, `top-left`, `bottom-left`, `bottom-center`, `top-right`, `full`) stay available as an option in Storybook.
   - An image that places the visitor in the year (e.g. 2020: a face mask or the virus particle).
 
 ## Theme
 
 **Changed (decided):** the page around the devices no longer takes the era's colors. A light page in the old eras was confusing next to the text on the right. Now there are two layers:
-- **Page theme** (`createPageTheme`): neutral, the same in every era, in **light or dark mode**. Covers the page background, the era panel text and the background code (Light+ / Dark+ follow the page mode). Dark by default for now; a light/dark toggle for visitors comes later (following `prefers-color-scheme` by default).
+- **Page theme** (`createPageTheme`): neutral, the same in every era, in **light or dark mode**. Covers the page background, the era panel text and the background code (Light+ / Dark+ follow the page mode). Default is the split page below; a light/dark/split toggle for visitors may come later.
 - **Era theme** (`createEraTheme`): only what evolves, the sites inside the monitor, tablet and phone, and the Contact Me button.
 
 **Split page (decided, default):** the devices read best on a light background, the text on a dark one. So the page is split: **light behind the devices, dark behind the text and the background code**. The split follows the layout: vertical between the two columns on wide screens (anchored to the text column, so it stays in the same place in every era), horizontal (devices above, text below) on small ones. Light and dark stay available as options (`pageMode: 'split' | 'light' | 'dark'`).
@@ -56,7 +56,7 @@ Replaces the earlier idea of the base color going from light to dark around 2019
 
 Goal: where possible, elements morph into their next-era version instead of being swapped out. Three kinds of change:
 
-1. **Values that can change smoothly follow the scroll:** monitor aspect ratio and bezel, browser frame dimensions and radius, theme colors, font size, background opacity. Driven by scroll position (`@property` + CSS scroll-driven animations, with an IntersectionObserver fallback), and reversible.
+1. **Values that can change smoothly follow the scroll:** monitor aspect ratio, bezel thickness and color, browser frame dimensions and radius, theme colors, font size, background opacity. (Monitor and browser designs that differ in structure, like the stand shape or the tab position, crossfade or morph as in point 2.) Driven by scroll position (`@property` + CSS scroll-driven animations, with an IntersectionObserver fallback), and reversible.
 2. **Elements present in both eras morph:** every era's mini-site shares one skeleton (header, nav, hero, content blocks, footer), and each era restyles it, CSS Zen Garden style. Shared elements (nav, hero, logo, browser toolbar, tabs, Contact Me button) get a `view-transition-name` and morph with the View Transitions API.
    - The visible site uses the shared skeleton; the **background code shows the real markup of each era** (e.g. `<table>` layouts in 2008), so the code tells the honest story.
 3. **Code background animates its changes:** tokens slide out/in/move between snippets (`shiki-magic-move`), e.g. `float` + clearfix → `display: flex` → `display: grid` → a React component.
@@ -105,30 +105,39 @@ Key implementation choices:
 
 ## Storybook
 
-Stories live next to their components in each package; the Storybook app only holds config and docs. Sections: **Introduction → Library → Devices → Backdrop → Timeline → Scene**. An **Era** switch in the toolbar renders any story in the style of any era, and the accessibility addon checks every story.
+Stories live next to their components in each package; the Storybook app holds the config, the introduction and the Playground. Sections: **Introduction → Playground → Library → Devices → Backdrop → Timeline → Scene**. Highlights: Library → ContactButton "Across eras", Library → TechStack "All variants", Devices → "Browser timeline" (20 versions, light/dark) and "Monitor timeline" (7 designs). An **Era** switch in the toolbar renders any story in the style of any era, and the accessibility addon checks every story.
 
-**Playground** (first section after Introduction): every attribute of every component in one place, to test combinations. "One era" and "Full timeline" (all eras, plus scroll/slider mode and scroll length). Controls grouped as Era, Page, Devices, Code; device controls default to "auto" (the era's own value).
-- **Decided:** the era's **style** and its **responsive behavior** are always tied to the era, so they have no override controls.
+**Playground** (first section after Introduction): every attribute of every component in one place, to test combinations. "One era" and "Full timeline" (all eras, plus scroll/slider mode and scroll length). Controls grouped as Era, Page (page mode split/light/dark, panel text glow, tech stack display), Devices (monitor ratio and resolution, devices max height, tablet, phone), Code (placement, incline, size, opacity, fade). Device controls default to "auto" (the era's own value).
+- **Decided:** the era's **style**, its **responsive behavior**, its **monitor design** and its **browser** are always tied to the era, so they have no override controls.
 
-## Direction of time (proposed, not yet decided)
+## Direction of time (decided: 2008 → now)
 
 Considered:
 1. **Start in 2008:** the visitor sees right away that something is unusual, which motivates scrolling and makes the concept obvious.
 2. **Start in 2026:** better for short attention spans (recruiters), and résumés are reverse-chronological anyway, but the concept risks being missed and scrolling down would mean going backward in time.
 
-Proposal: **start in 2008, and make sure the recruiter's needs are covered from the first second, whatever year is on screen:**
-- Persistent header in a neutral style: name, "Senior Frontend Developer · since 2008," Contact Me, and the timeline scrubber with a "Now" jump.
+Decided: **start in 2008 and move toward now, and make sure the recruiter's needs are covered from the first second, whatever year is on screen:**
+- Persistent header in a neutral style: name, "Senior Frontend Developer · since 2008," Contact Me, and the timeline scrubber with a "Now" jump. (Built: name, role, "Now" and "Contact" links. The scrubber is still to do.)
 - Scrolling forward = time moving forward, and the story reads as growth, ending on 2026 with the strongest content and the contact call to action.
 - The 2008 frame is so recognizable that the concept is clear within a second.
 
-Optional experiment: a short **"rewind" intro**: the page loads on the 2026 final frame (name, role, contact), then after about a second rewinds quickly through the eras back to 2008 and invites the visitor to scroll. The visitor sees "now" first and understands the concept. Skipped with `prefers-reduced-motion`, on repeat visits, and on any user input. To be tested in the prototype, as it could also feel like a delay.
+Still an optional experiment, not decided: a short **"rewind" intro**: the page loads on the 2026 final frame (name, role, contact), then after about a second rewinds quickly through the eras back to 2008 and invites the visitor to scroll. The visitor sees "now" first and understands the concept. Skipped with `prefers-reduced-motion`, on repeat visits, and on any user input. To be tested in the prototype, as it could also feel like a delay.
 
 Mobile follows the same direction (starts at 2008), with the same "Now" jump.
 
 ## Open questions
 
-- **Fake devices on mobile:** a full monitor + tablet + phone won't fit on a phone screen. Options: only the monitor, scaled down; only the device most typical of the era; or a device switcher inside the slide.
-- **Overlapping jobs:** OSeven (2016–2024) overlaps with the I6 (2022) and XM (2023) consulting roles. Either show two projects side by side in those eras, or a primary job with a "consulting on the side" note.
+- **Fake devices on mobile:** a full monitor + tablet + phone is small on a phone screen. Options: only the monitor, scaled down; only the device most typical of the era; or a device switcher inside the slide. (For now: the whole device set, scaled down.)
+- **Overlapping jobs:** OSeven (2016–2024) overlaps with the I6 (2022) and XM (2023) consulting roles. Either show two projects side by side in those eras, or a primary job with a "consulting on the side" note. (For now: both listed, the consulting role marked "alongside".)
+- **Contact Me target:** still a placeholder (`#contact`). Proposed: a `mailto:` to my personal email, assembled in the browser to limit spam scraping; phone kept off the public site; or a contact form service instead. Waiting for my decision.
+- **Screen width in the 2020s eras:** they lay out at 2560px, so the browser toolbar is tiny. Proposed: 1440–1920px, as real high-resolution screens use display scaling.
+- **Phone and tablet designs per era:** they have only two looks (classic/modern). Proposed: a model per era, like the monitors.
+- **Dim logos on dark:** some brand colors (.NET purple, MySQL blue) look dim on the dark side. Option: raise the contrast threshold so more logos switch to the text color. Real logo files could replace the lettered badges (AngularJS, SharePoint, Kendo UI, JavascriptMVC).
+
+## Status
+
+- **Built** (branch `POR-002`, pushed 2026-11-18): monorepo skeleton, the site with all 7 eras as final frames (desktop sticky scroll, mobile slider), Storybook with the Playground, era themes, Contact Me per era, monitors and browsers per era, VS Code-colored background code, split page, tech stack logos. Tech stack logos and the concept update are committed on the same branch.
+- **Next:** the 2008 → 2010 transition prototype (morphs, View Transitions, shiki-magic-move); real recreations of my projects inside the devices; year images; header timeline scrubber; Contact Me target; deploy (site + Storybook).
 
 ## Later features
 
