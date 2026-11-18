@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Library/Era themes" />
+
+# Era themes
+
+`createEraTheme(era)` returns a Material UI theme for one era of web design. Components read their look from the theme, so the same component renders as a glossy Web 2.0 element, a flat 2012 one, Material, or a modern glass one.
+
+| Era          | Years     | Look                                    |
+| ------------ | --------- | --------------------------------------- |
+| `web2`       | 2008–2009 | Glossy gradients, Verdana, fixed widths |
+| `responsive` | 2010–2011 | Bootstrap-style gradients, Helvetica    |
+| `flat`       | 2012–2013 | Flat colors, square corners             |
+| `material`   | 2014–2016 | Material Design (MUI's own defaults)    |
+| `systems`    | 2017–2019 | Design-system neutrals, system fonts    |
+| `utility`    | 2020–2022 | Dark mode, rounded corners              |
+| `platform`   | 2023–2026 | Glass surfaces, pill shapes             |
+
+```tsx
+import { ThemeProvider } from '@mui/material/styles';
+import { ContactButton, createEraTheme } from '@portfolio/ui';
+
+<ThemeProvider theme={createEraTheme('web2')}>
+  <ContactButton href="#contact" />
+</ThemeProvider>;
+```

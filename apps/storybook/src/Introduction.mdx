@@ -1,0 +1,23 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Portfolio components
+
+The building blocks of my portfolio, a single page where scrolling moves through time from 2008 to today and the page restyles itself to match each era of frontend development.
+
+Use the **Era** switch in the toolbar to render any component in the style of any era.
+
+## Sections
+
+| Section      | Package               | What's inside                                                                |
+| ------------ | --------------------- | ---------------------------------------------------------------------------- |
+| **Library**  | `@portfolio/ui`       | Custom component library on top of Material UI, with a theme for each era    |
+| **Devices**  | `@portfolio/devices`  | Monitor, tablet, phone and browser replicas, with screens at real resolution |
+| **Backdrop** | `@portfolio/backdrop` | The faint background: the era's code style and a picture of the year         |
+| **Timeline** | `@portfolio/timeline` | Scroll through time on desktop, slideshow on mobile, on the same markup      |
+| **Scene**    | `@portfolio/scene`    | One era put together: devices, era panel and background                      |
+
+The **Playground** puts every attribute of every component in one place: pick an era, then override any device, page or code setting to test combinations.
+
+Every story is checked with the accessibility addon.

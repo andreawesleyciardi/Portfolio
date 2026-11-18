@@ -1,0 +1,25 @@
+{
+  "name": "@portfolio/scene",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Composes one era: devices, era panel and background into a full frame.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mui/material": "^9.5.0",
+    "@portfolio/ui": "*",
+    "@portfolio/devices": "*",
+    "@portfolio/backdrop": "*",
+    "@portfolio/eras": "*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

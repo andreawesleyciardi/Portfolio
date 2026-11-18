@@ -1,0 +1,23 @@
+{
+  "name": "@portfolio/ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Custom component library on top of Material UI, with a theme for each era of web design.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mui/material": "^9.5.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

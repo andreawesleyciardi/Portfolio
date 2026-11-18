@@ -1,0 +1,23 @@
+{
+  "name": "@portfolio/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build -o storybook-static"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.5.0",
+    "@portfolio/backdrop": "*",
+    "@portfolio/devices": "*",
+    "@portfolio/eras": "*",
+    "@portfolio/scene": "*",
+    "@portfolio/timeline": "*",
+    "@portfolio/ui": "*",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

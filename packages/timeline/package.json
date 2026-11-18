@@ -1,0 +1,21 @@
+{
+  "name": "@portfolio/timeline",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The timeline: scroll through time on desktop, a slideshow on mobile.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mui/material": "^9.5.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

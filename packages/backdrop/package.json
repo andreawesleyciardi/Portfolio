@@ -1,0 +1,23 @@
+{
+  "name": "@portfolio/backdrop",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Decorative background layers: the era's code style and a picture of the year.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./highlight": "./src/highlight.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mui/material": "^9.5.0",
+    "shiki": "^4.6.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
