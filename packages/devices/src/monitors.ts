@@ -37,9 +37,9 @@ export interface MonitorSpec {
 
 export const MONITOR_MODELS = {
   'lcd-2006': {
-    name: 'Silver LCD, 4:3',
+    name: 'Silver LCD, 5:4',
     year: 2006,
-    ratio: '4/3',
+    ratio: '5/4',
     bezel: {
       color: 'linear-gradient(to bottom, #d5d5d1, #b4b4b0)',
       top: 4,

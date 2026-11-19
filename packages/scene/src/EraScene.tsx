@@ -55,8 +55,9 @@ export interface EraSceneProps {
    */
   pageMode?: ScenePageMode;
   /**
-   * Maximum height of the devices (any CSS length). Keeps tall monitors (4:3) from growing
-   * bigger than the wide ones and pushing the layout around.
+   * Maximum height of the devices (any CSS length, fixed by default so it doesn't depend on the
+   * window). Keeps tall monitors (4:3, 5:4) from growing bigger than the wide ones and pushing the
+   * layout around. In a window too short for it, the devices shrink to fit anyway.
    */
   devicesMaxHeight?: string;
 }
@@ -69,12 +70,18 @@ export const SCENE_PAGE_MODES: readonly ScenePageMode[] = ['split', 'light', 'da
 const MONITOR_SHARE = 0.86;
 const HANDHELD_ROOM = 0.08;
 const STAND_HEIGHT = '40px';
+// The scene's vertical padding plus some air: in a short window the devices must still fit.
+const FIT_WINDOW = '100svh - 180px';
 
-/** Width of the device set: as wide as the column allows, but no taller than `maxHeight`. */
+/**
+ * Width of the device set: as wide as the column allows, but no taller than `maxHeight`, and
+ * never taller than the window can show.
+ */
 function devicesWidth(ratio: string, maxHeight: string) {
   const [w = 16, h = 9] = ratio.split('/').map(Number);
   const heightPerWidth = MONITOR_SHARE / (w / h) + HANDHELD_ROOM;
-  return `min(100%, calc((${maxHeight} - ${STAND_HEIGHT}) / ${heightPerWidth.toFixed(4)}))`;
+  const height = `min(${maxHeight}, ${FIT_WINDOW})`;
+  return `min(100%, calc((${height} - ${STAND_HEIGHT}) / ${heightPerWidth.toFixed(4)}))`;
 }
 
 // The iPhone's default viewport: how phones showed non-responsive sites, zoomed out.
@@ -182,7 +189,7 @@ export function EraScene({
   panelGlow,
   techStackVariant,
   pageMode = 'split',
-  devicesMaxHeight = '52svh',
+  devicesMaxHeight = '520px',
 }: EraSceneProps) {
   const isSplit = pageMode === 'split';
   // Split: light behind the devices, dark behind the text and the code.

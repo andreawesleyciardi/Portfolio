@@ -24,9 +24,9 @@ export const eras: readonly Era[] = [
     style: 'web2',
     years: [2008, 2009],
     title: 'Web 2.0 and fixed widths',
-    intro: '1024×768 screens, 960px layouts, IE6 still around, and jQuery everywhere.',
+    intro: '1280×1024 screens, 960px layouts, IE6 still around, and jQuery everywhere.',
     devices: {
-      monitor: { model: 'lcd-2006', virtualWidth: 1024 },
+      monitor: { model: 'lcd-2006', virtualWidth: 1280 },
       browserBrand: 'microsoft', // Internet Explorer: about 65% of desktop users
       phone: { generation: 'classic', virtualWidth: 320 },
     },

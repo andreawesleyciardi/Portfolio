@@ -80,7 +80,7 @@ function applyOverrides(era: Era, args: PlaygroundArgs): Era {
 function sceneProps(args: PlaygroundArgs) {
   return {
     pageMode: args.pageMode,
-    devicesMaxHeight: `${args.devicesMaxHeight}svh`,
+    devicesMaxHeight: `${args.devicesMaxHeight}px`,
     panelGlow: args.panelGlow,
     techStackVariant: args.techStackVariant,
     codePlacement: args.codePlacement,
@@ -129,8 +129,8 @@ const argTypes = {
     table: { category: 'Devices' },
   },
   devicesMaxHeight: {
-    name: 'Devices max height (% of screen height)',
-    ...range(30, 90, 1),
+    name: 'Devices max height (px)',
+    ...range(300, 900, 10),
     table: { category: 'Devices' },
   },
   tablet: {
@@ -164,7 +164,7 @@ const defaultArgs: PlaygroundArgs = {
   techStackVariant: 'icons',
   monitorRatio: AUTO,
   monitorWidth: AUTO,
-  devicesMaxHeight: 52,
+  devicesMaxHeight: 520,
   tablet: AUTO,
   phone: AUTO,
   codePlacement: 'right',
